@@ -1,0 +1,13 @@
+# dhound-agent configuration - https://knowledge.dhound.io/how-to-use-dhound
+
+paths:
+- /var/log/fail2ban.log*
+eventtimeformat: YYYY-MM-DD hh:mm:ss
+events:
+# fail2ban detected failed login attempts
+- sid: 10041
+  regex: '^(?P<eventTime>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})(.*?)fail2ban\.filter(.+?)\[(?P<service>\w+?)\](\s*?)Found(.*?)(?P<ip>\d{1,3}\.\d{1,3}\.\d{1,3}.\d{1,3})'
+
+# fail2ban banned an Ip Address
+- sid: 10042
+  regex: '^(?P<eventTime>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})(.*?)fail2ban\.actions(.+?)\[(?P<service>\w+?)\](\s*?)Ban(.*?)(?P<ip>\d{1,3}\.\d{1,3}\.\d{1,3}.\d{1,3})'

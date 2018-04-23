@@ -1,0 +1,13 @@
+# dhound-agent configuration - https://knowledge.dhound.io/how-to-use-dhound
+
+paths:
+- /var/log/syslog*
+eventtimeformat: MMM D hh:mm:ss
+events:
+  # pure-ftpd success logins
+- sid: 10021
+  regex: '^(?P<eventTime>.+? [0-2][0-9]:[0-5][0-9]:[0-5][0-9]).+?ftp.+?\(.+?@(?P<ip>.+?)\) \[.+?\] (?P<user>\S+) .+? logged in'
+
+  # pure-ftpd failed logins
+- sid: 10022
+  regex: '^(?P<eventTime>.+? [0-2][0-9]:[0-5][0-9]:[0-5][0-9]).+?ftp.+?\(.+?@(?P<ip>.+?)\) \[.+?\] Authentication failed for user \[(?P<user>\S+)\]'

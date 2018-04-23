@@ -1,0 +1,33 @@
+# dhound-agent configuration - https://knowledge.dhound.io/how-to-use-dhound
+
+source: wineventlog
+paths: 
+- Security
+events:
+# failed remote desktop logins on server
+- sid: 20003
+  wineventids: [4625]
+  regex: '<Data Name=.TargetUserName.>(?P<user>.*?)<\/Data>|<Data Name=.IpAddress.>(?P<ip>.*?)</Data>'
+
+# new user account created
+- sid: 20611
+  wineventids: [4720]
+  regex: '<Data Name=.TargetUserName.>(?P<user>.*?)<\/Data>'
+  message: 'new user account <#user> created'
+  fields:
+    ip: LOCAL
+
+# user account enabled
+- sid: 20612
+  wineventids: [4722]
+  regex: '<Data Name=.TargetUserName.>(?P<user>.*?)<\/Data>'
+  fields:
+    ip: LOCAL
+
+# user account changed
+- sid: 20613
+  wineventids: [4725,4726,4724,4732]
+  regex: '<Data Name=.TargetUserName.>(?P<user>.*?)<\/Data>'
+  message: 'user account <#user> changed'
+  fields:
+    ip: LOCAL

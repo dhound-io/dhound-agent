@@ -1,0 +1,12 @@
+# dhound-agent configuration - https://knowledge.dhound.io/how-to-use-dhound
+paths:
+- /opt/couchbase/var/lib/couchbase/logs/http_access.log
+eventtimeformat: DD/MMM/YYYY:hh:mm:ss ZZZZ
+events:
+  # Couchbase UI Admin success logins
+- sid: 10130
+  regex: '^(?P<ip>.+?) (\S+?) (\S+?) \[(?P<eventTime>.+?)\] "POST /uilogin (.*?)" 200 \d+ (?P<referer>.*?) '
+
+  # Couchbase UI Admin failed logins
+- sid: 10131
+  regex: '^(?P<ip>.+?) (\S+?) (\S+?) \[(?P<eventTime>.+?)\] "POST /uilogin (.*?)" 400 \d+ (?P<referer>.*?) '

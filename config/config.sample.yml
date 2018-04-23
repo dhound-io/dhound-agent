@@ -1,0 +1,18 @@
+# for more information about dhound-agent configuration see here - https://knowledge.dhound.io/how-to-use-dhound
+output:
+  # (required) client access token
+  accesstoken: 5MDMDMDMDMDMDMKEYMDMDMDMKSKDMFMDMSMDMFMXG1K8B68J8
+  # (required) server identifier
+  serverkey: MMMDDDFFFBLK
+  # (optional) proxy settings
+  # proxy: http://localhost:8080
+
+input:
+  # enable all rules specified in rules.d folder: true/false
+  allrules: true
+  # if allrules is false, specify name of rule files without extension (for example, sshd, tcp-out, etc)
+  rules: [sshd, fail2ban, pure-ftpd, tcp-out, apache-wordpress]
+  # network interface (optional)
+  networkinterface: "eth0"
+  # this is useful functionality for output traffic incidents investigation, not available on arm devices
+  trackDnsTraffic: true

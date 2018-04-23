@@ -1,0 +1,15 @@
+# dhound-agent configuration - https://knowledge.dhound.io/how-to-use-dhound
+
+source: wineventlog
+paths: 
+- Application
+events:
+# new product installed, except Windows Defender updates, it will be tracked at another place
+- sid: 20510
+  wineventids: [1033]
+  regex: '<EventData>\s*<Data>(?P<soft>.*?)<\/Data>'
+  message: 'new software <#soft> installed on the server'
+  fields:
+    ip: LOCAL
+  exclude:
+    soft: '(\(Security-SPP-Reserved-EnableNotificationMode\))'

@@ -1,0 +1,14 @@
+# dhound-agent configuration - https://knowledge.dhound.io/how-to-use-dhound
+
+paths: 
+- 'c:\inetpub\logs\LogFiles\FTPSVC*\*.log'
+events:
+eventtimeformat: YYYY-MM-DD hh:mm:ss
+events:
+# failed windows ftp connection
+- sid: 20021
+  regex: '(?P<eventTime>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}) (?P<ip>.+?) (?P<user>\S+) \S+ \d+ \S+ \S+ 530 '
+
+# success windows ftp connection
+- sid: 20022
+  regex: '(?P<eventTime>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}) (?P<ip>.+?) (?P<user>\S+) \S+ \d+ \S+ \S+ 230 '

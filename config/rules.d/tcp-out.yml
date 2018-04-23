@@ -1,0 +1,15 @@
+# dhound-agent configuration - https://knowledge.dhound.io/how-to-use-dhound
+
+# New OUTBOUND connections from server to Internet (all private network addresses are excluded)
+# The iptables rule will be added during starting dhound-agent to log OUT TCP Connections: -A OUTPUT -m state -p tcp --state NEW  --syn -j LOG --log-prefix "OUT TCP: " --log-level 4
+
+paths:
+- /var/log/syslog*
+- /var/log/messages*
+eventtimeformat: MMM D hh:mm:ss
+events:
+# SecurityId(sid):10011 - out tcp connections
+- sid: 10011
+  regex: '^(?P<eventTime>.+? [0-2][0-9]:[0-5][0-9]:[0-5][0-9]).+?OUT TCP.+?IN= OUT=(.+?) DST=(?P<ip>.+?) (.*?) DPT=(?P<port>\d+)'
+  exclude:
+    ip: ^((0\.)|(127\.0\.0\.1)|(192\.168\.)|(10\.)|(172\.(1[6-9]|2[0-9]|3[0-1])\.)|(fc00:)|(fe80:))

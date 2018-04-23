@@ -1,0 +1,20 @@
+# for more information about dhound-agent configuration see here - https://knowledge.dhound.io/how-to-use-dhound
+output:
+  # (required) access token should be received from server system in advance
+  accesstoken: 5SX7W39Q1M3DZQ4GB97EZ2CAJTMFNTNE4S166WDWXG1K8B68J8 
+  # (required) server identifier, don't change it
+  serverkey: DU1YK0Y5X48O2BHK87BJ7JHHAGU8E5EZFZFMOXHT
+  # (optional) specify environment 
+  environment: DEV
+  # (optional) proxy settings
+  # proxy: http://localhost:8080
+
+input:
+  # enable all rules specified in rules.d folder: true/false
+  allrules: true
+  # if allrules is false, specify name of rule files without extension (for example, sshd, tcp-out, etc)
+  rules: [win_eventlog_application]
+  # network interface (optional)
+  networkinterface: "\\Device\\NPF_{6ACC3DE3-A6F6-4292-A207-47D7A00309C9}"
+  # this is useful functionality for output traffic incidents investigation, not available on arm devices
+  trackdnstraffic: true

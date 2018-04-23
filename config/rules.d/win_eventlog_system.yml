@@ -1,0 +1,13 @@
+# dhound-agent configuration - https://knowledge.dhound.io/how-to-use-dhound
+
+source: wineventlog
+paths: 
+- System
+events:
+# new services installed
+- sid: 20511
+  wineventids: [2000]
+  regex: '<Data Name=.ServiceName.>(?P<service>.*?)<\/Data>|<Data Name=.ImagePath.>(?P<path>.*?)<\/Data>'
+  message: 'new service <#service> installed'
+  fields:
+    ip: LOCAL

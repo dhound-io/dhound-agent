@@ -1,0 +1,27 @@
+*.o
+/.dhound-agent
+/.dhound-agent-pug
+*.log
+*.bak
+*.new
+agent-debug.log
+*.lock
+*.exe
+*.dhound-agent-pub
+/var/log/*
+/dhound-agent
+dhound-agent.exe~
+dhound-agent.exe
+/.vscode/*
+/var
+/log
+
+* - Copy.*
+
+*.deb
+*.rpm
+/src/*
+/pkg/*
+/build/*
+/.state/*
+/.vs/*

@@ -1,0 +1,16 @@
+# dhound-agent configuration - https://knowledge.dhound.io/how-to-use-dhound
+# the following command enable logging on firewall public profile:
+# 		netsh advfirewall set Publicprofile logging allowedconnections enable
+# to disable logging:
+# 		netsh advfirewall set Publicprofile logging allowedconnections disable
+
+paths: 
+- 'c:\WINDOWS\system32\LogFiles\Firewall\*.log'
+events:
+eventtimeformat: YYYY-MM-DD hh:mm:ss
+events:
+# SecurityId(sid):10011 - out tcp connections
+- sid: 10011
+  regex: '(?P<eventTime>.+?) ALLOW TCP .*? (?P<ip>.+?) \d+ (?P<port>\d+)'
+  exclude:
+    ip: ^((0\.)|(127\.0\.0\.1)|(192\.168\.)|(10\.)|(172\.(1[6-9]|2[0-9]|3[0-1])\.)|(fc00:)|(fe80:))

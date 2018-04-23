@@ -1,0 +1,47 @@
+# dhound-agent configuration - https://knowledge.dhound.io/how-to-use-dhound
+
+paths:
+- /var/log/auth.log*
+eventtimeformat: MMM D hh:mm:ss
+events:
+# local success logins
+- sid: 10001
+  critical: true
+  regex: '^(?P<eventTime>\S{3} +\d{1,2} \d{2}:\d{2}:\d{2}).+?pam_unix\(login:session\).+? session opened for user (?P<user>\S+)'
+  fields:
+    ip: local
+
+  # ssh success logins using password or publickey
+- sid: 10002
+  critical: true
+  regex: '^(?P<eventTime>\S{3} +\d{1,2} \d{2}:\d{2}:\d{2}).+?sshd.+?Accepted (?:password|publickey) for (?P<user>.+?) from (?P<ip>.+?) port'
+  
+  # local failed logins
+- sid: 10003
+  regex: '^(?P<eventTime>\S{3} +\d{1,2} \d{2}:\d{2}:\d{2}).+?pam_unix\(login:auth\).+? authentication (?:failure|error).+? user=(?P<user>\S+)'
+  fields:
+    ip: local
+
+  # ssh failed logins
+- sid: 10004
+  regex: '^(?P<eventTime>\S{3} +\d{1,2} \d{2}:\d{2}:\d{2}).+?sshd.+?Received disconnect from (?P<ip>.+?): 11:\s+\[preauth\]'
+- sid: 10004
+  regex: '^(?P<eventTime>\S{3} +\d{1,2} \d{2}:\d{2}:\d{2}).+?sshd.+?error.+?from (?P<ip>.+?): .*?No supported authentication.*?\[preauth\]'
+- sid: 10004
+  regex: '^(?P<eventTime>\S{3} +\d{1,2} \d{2}:\d{2}:\d{2}).+?sshd.+?Failed (?:password|publickey) for (?:invalid user |)(?P<user>.+?) from (?P<ip>.+?) port'
+- sid: 10004
+  regex: '^(?P<eventTime>\S{3} +\d{1,2} \d{2}:\d{2}:\d{2}).+?sshd.+?Received disconnect from (?P<ip>.+?): 11:\s+\[preauth\]'
+- sid: 10004
+  regex: '^(?P<eventTime>\S{3} +\d{1,2} \d{2}:\d{2}:\d{2}).+?sshd.+?: (?:[Ii]nvalid|[Ii]llegal) user (?P<user>.+?) from (?P<ip>.+)$'
+- sid: 10004
+  regex: '^(?P<eventTime>\S{3} +\d{1,2} \d{2}:\d{2}:\d{2}).+?sshd.+?: ROOT LOGIN REFUSED FROM (?P<ip>.+)'
+  fields:
+    user: root
+- sid: 10004
+  regex: '^(?P<eventTime>\S{3} +\d{1,2} \d{2}:\d{2}:\d{2}).+?sshd.+?User not known to the underlying authentication module for (?P<user>.+?) from (?P<ip>.+)$'
+- sid: 10004
+  regex: '^(?P<eventTime>\S{3} +\d{1,2} \d{2}:\d{2}:\d{2}).+?sshd.+?: User (?P<user>.+?) from (?P<ip>.+?) not allowed because not listed in AllowUsers$'
+- sid: 10004
+  regex: '^(?P<eventTime>\S{3} +\d{1,2} \d{2}:\d{2}:\d{2}).+?sshd.+?: User (?P<user>.+?) from (?P<ip>.+?) not allowed because none of user.s groups are listed in AllowGroups'
+- sid: 10004
+  regex: '^(?P<eventTime>\S{3} +\d{1,2} \d{2}:\d{2}:\d{2}).+?sshd.+?: authentication failure;(?:.*?)rhost=(?P<ip>.*?) user=(?P<user>.+)$'

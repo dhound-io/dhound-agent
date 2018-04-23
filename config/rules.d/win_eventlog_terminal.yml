@@ -1,0 +1,23 @@
+# dhound-agent configuration - https://knowledge.dhound.io/how-to-use-dhound
+
+source: wineventlog
+paths: 
+- Microsoft-Windows-TerminalServices-LocalSessionManager/Operational
+events:
+# success Local logins on server
+- sid: 20001
+  wineventids: [21,25]
+  critical: true
+  regex: '<User>(?P<user>.*?)<\/User>|<Address>LOCAL<\/Address>'
+  fields:
+    ip: 127.0.0.1
+
+# success Remote desktop logins on server
+- sid: 20002
+  wineventids: [21,25]
+  critical: true
+  regex: '<User>(?P<user>.*?)<\/User>|<Address>(?P<ip>.*?)<\/Address>'
+  fields:
+    source: 'EventLogs: Microsoft-Windows-TerminalServices-LocalSessionManager/Operational'
+  exclude:
+    ip: LOCAL

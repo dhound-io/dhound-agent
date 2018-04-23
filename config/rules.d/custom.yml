@@ -1,0 +1,34 @@
+# for more information about collecting custom event see here - https://knowledge.dhound.io/how-to-use-dhound/custom-security-events/configure-collecting-custom-events
+
+# example of collecting custom events
+
+#define list of files to parse, use asterisk to include files with dynamic file names
+paths: 
+- /var/log/app/applog*
+- /var/log/app/*accesslog
+# exclude files that should not be parsed, dhound does not support parsing archives
+excludefilesregex: ((.gz)|(.zip))$
+# format of time in log files, milliseconds are not supported
+eventtimeformat: YYYY MMM DD hh:mm:ss
+# define the max age in hours of files to parse
+deadtime: 360h 
+# (optional) encoding of specified files. by default, utf-8 for Linux and windows-1252 for linux. the list of available encodings can be found here: https://www.w3.org/TR/encoding/#encodings
+# encoding:  
+# define list of events that can be extracted from source files
+events:
+  # (required) custom security id should be in range 100000-200000
+- sid: 100001 
+  # (required) Posix regex with named variables, <eventime> and <ip> are required to be presented in event, 
+  # all other named variables will be extracted from regex match and include into the event information
+  regex: ^(?P<s1>.+?) (\S+?) (\S+?) \[(?P<eventTime>.+?)\] "POST /wp-login\.php (.*?)" 302 \d+ "((http(s|)://(?P<field1>.*?)/.*?)|-)"
+  # (optional) override default message associated with this security event, parsed fields can be injected into a message  by using # prefix before field
+  # message: '#field1. access admin part of the <app>'
+  # (optional) override default security group that this security event will belong to
+  # gid: 100000
+  # (optional)additional static fields that should be included into events
+  # if ip is not parsable from regex, it can be included as statis field, for example, ip: local
+  # fields:
+    # field1: <static value>
+  # (optional) per each field can be added regex expression, if regex match is success, this event will be ignored and will not be sent on server
+  # exclude:
+  # ip: ((0\.)|(127\.)|(192\.168\.)|(10\.)|(172\.(1[6-9]|2[0-9]|3[0-1])\.)|(fc00:)|(fe80:))

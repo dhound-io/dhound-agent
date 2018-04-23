@@ -1,0 +1,15 @@
+# dhound-agent configuration - https://knowledge.dhound.io/how-to-use-dhound
+
+paths:
+- var\log\apache2\*access.log*
+- var\log\apache2\access_log
+deadtime: 360h
+eventtimeformat: DD/MMM/YYYY:hh:mm:ss ZZZZ
+events:
+  # Wordpress success logins
+- sid: 10031
+  regex: '^((?P<site>.*?:\d+ )|)(?P<ip>\S+?) (\S+?) (\S+?) \[(?P<eventTime>.+?)\] "POST /wp-login\.php(.*?)" 302 \d+'
+
+  # Wordpress failed logins
+- sid: 10032
+  regex: '^((?P<site>.*?:\d+ )|)(?P<ip>\S+?) (\S+?) (\S+?) \[(?P<eventTime>.+?)\] "POST /wp-login\.php(.*?)" 200 \d+'
