@@ -43,7 +43,7 @@ start() {
   if $modifyiptables; then
   	dhound_iptables_rule="dhound: Log OUT Tcp Connections to syslog"
 	  if !( iptables -L | grep -q "$dhound_iptables_rule" ); then
-    	iptables -I OUTPUT -m state -p tcp --state NEW  --syn -j LOG --log-prefix "OUT TCP: " --log-level 4 -m hashlimit --hashlimit-upto 1/hour --hashlimit-burst 1 --hashlimit-mode dstip --hashlimit-name dhoundtcpout --hashlimit-htable-expire 3600000 --hashlimit-htable-size 1000 -m comment --comment "$dhound_iptables_rule"
+    	iptables -A OUTPUT -m state -p tcp --state NEW  --syn -j LOG --log-prefix "OUT TCP: " --log-level 4 -m hashlimit --hashlimit-upto 1/hour --hashlimit-burst 1 --hashlimit-mode dstip --hashlimit-name dhoundtcpout --hashlimit-htable-expire 3600000 --hashlimit-htable-size 1000 -m comment --comment "$dhound_iptables_rule"
 	    echo "iptables updated: added new rule '$dhound_iptables_rule'"
   	fi
   fi
