@@ -2,6 +2,7 @@
 
 paths:
 - /var/log/auth.log*
+- /var/log/secure*
 eventtimeformat: MMM D hh:mm:ss
 events:
 # local success logins

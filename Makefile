@@ -1,4 +1,4 @@
-VERSION=1.1.113
+VERSION=1.1.117
 
 .PHONY: default
 default: compile
@@ -9,7 +9,7 @@ OBJECTS=dhound-agent
 compile: $(OBJECTS)
 
 dhound-agent:
-	go build -o $@
+	go build --ldflags '-extldflags "-static"' -o $@
 
 .PHONY: clean
 clean: 
