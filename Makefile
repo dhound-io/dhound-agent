@@ -1,4 +1,4 @@
-VERSION=1.1.121
+VERSION=1.1.123
 
 .PHONY: default
 default: compile
@@ -52,5 +52,6 @@ rpm deb: clean compile buildempty
 		./config/rules.d/sshd.yml=/etc/dhound-agent/rules.d/sshd.yml \
 		./config/rules.d/tcp-out.yml=/etc/dhound-agent/rules.d/tcp-out.yml \
 		./config/rules.d/couchbase.yml=/etc/dhound-agent/rules.d/couchbase.yml \
+		./config/rules.d/installations.yml=/etc/dhound-agent/rules.d/installations.yml \		
 		./config/rules.d/wordpress-accesslog.yml=/etc/dhound-agent/rules.d/wordpress-accesslog.yml \
 
