@@ -11,6 +11,7 @@ events:
   fields:
     ip: local
 
+
 # software erased by yum
 - sid: 10511
   regex: '^(?P<eventTime>\S{3} +\d{1,2} \d{2}:\d{2}:\d{2}).+?yum\[\d+]: Erased: (?P<soft>.*?)$'
