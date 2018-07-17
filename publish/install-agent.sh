@@ -119,6 +119,7 @@ baseurl=https://repository.dhound.io/rpm
 failovermethod=priority
 enabled=1
 gpgcheck=1
+metadata_expire=300
 gpgkey=file://$GPG_KEY_LOCATION
 EOF"
             $CURL -s "$SIGNKEY"  | tee "$GPG_KEY_LOCATION" > /dev/null
