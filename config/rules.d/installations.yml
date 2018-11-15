@@ -6,7 +6,7 @@ eventtimeformat: MMM D hh:mm:ss
 events:
 # new software installed by yum
 - sid: 10510
-  regex: '^(?P<eventTime>\S{3} +\d{1,2} \d{2}:\d{2}:\d{2}).+?yum\[\d+]: Installed: (?P<soft>.*?)$'
+  regex: '^(?P<eventTime>\S{3} +\d{1,2} \d{2}:\d{2}:\d{2}).+?yum\[\d+]: Installed: (?P<soft>.*?)\z'
   message: 'new software <#soft> installed on the server'
   fields:
     ip: local
@@ -14,7 +14,7 @@ events:
 
 # software erased by yum
 - sid: 10511
-  regex: '^(?P<eventTime>\S{3} +\d{1,2} \d{2}:\d{2}:\d{2}).+?yum\[\d+]: Erased: (?P<soft>.*?)$'
+  regex: '^(?P<eventTime>\S{3} +\d{1,2} \d{2}:\d{2}:\d{2}).+?yum\[\d+]: Erased: (?P<soft>.*?)\z'
   message: '<#soft> software erased on the server'
   fields:
     ip: local

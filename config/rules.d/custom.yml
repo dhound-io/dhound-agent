@@ -7,7 +7,7 @@ paths:
 - /var/log/app/applog*
 - /var/log/app/*accesslog
 # exclude files that should not be parsed, dhound does not support parsing archives
-excludefilesregex: ((.gz)|(.zip))$
+excludefilesregex: ((.gz)|(.zip))\z
 # format of time in log files, milliseconds are not supported
 eventtimeformat: YYYY MMM DD hh:mm:ss
 # define the max age in hours of files to parse
