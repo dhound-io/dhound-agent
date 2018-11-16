@@ -163,11 +163,14 @@ func (gate HttpGateway) SendToServer(eventsContainers []*SecurityEventsContainer
 			}
 
 			resp, errs := gate._client.Post(gate._serverUrl, "application/json", bytes.NewBuffer(netContent))
+
 			if errs == nil {
-				resp.Body.Close()
-				err := os.Remove(netfile)
-				if err != nil {
-					emit(logLevel.important, "Failed removing net file %s, error: %s\n", netfile, err.Error())
+				defer resp.Body.Close()
+				if resp.StatusCode == 200 {
+					err := os.Remove(netfile)
+					if err != nil {
+						emit(logLevel.important, "Failed removing net file %s, error: %s\n", netfile, err.Error())
+					}
 				}
 			}
 		}
