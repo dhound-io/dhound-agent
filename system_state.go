@@ -30,6 +30,7 @@ func (state *SystemState) Sync() {
 
 				sourceState.Offset = eventsContainer.Offset
 				sourceState.Source = eventsContainer.Source
+				sourceState.Line = eventsContainer.Line
 
 				sourceState.LastUpdatedTimeUtcNumber = DateToCustomLong(time.Now())
 			}

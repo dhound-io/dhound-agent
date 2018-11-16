@@ -3,6 +3,7 @@ package main
 type SecurityEventsContainer struct {
 	SourceId string `json:"sourceid,omitempty"`
 	Offset   int64  `json:"offset,omitempty"`
+	Line     int64  `json:"line,omitempty"`
 	Source   string `json:"source,omitempty"`
 
 	IpToServiceMap map[string][]string `json:"ipmap,omitempty"`

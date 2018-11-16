@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"io"
 	"os"
 	"path/filepath"
@@ -88,9 +89,10 @@ func (crawler *FilesCrawler) _RunOnce() {
 		sourceState := crawler.SystemState.Find(fileId)
 		// debugJson(sourceState)
 		var position int64 = 0
-
+		var linePosition int64 = 1
 		if sourceState.Offset > 0 {
 			position = sourceState.Offset
+			linePosition = sourceState.Line
 		}
 
 		if crawler._firstRun {
@@ -99,13 +101,19 @@ func (crawler *FilesCrawler) _RunOnce() {
 				ruleNames = append(ruleNames, rule.RuleFileName)
 			}
 
-			emitLine(logLevel.important, "resume observing file '%s' from position %d; rules: '%s'.", path, position, strings.Join(ruleNames, ", "))
+			if linePosition > 0 {
+				emitLine(logLevel.important, "resume observing file '%s' from position %d (line:%d); rules: '%s'.", path, position, linePosition, strings.Join(ruleNames, ", "))
+			} else {
+				emitLine(logLevel.important, "resume observing file '%s' from position %d; rules: '%s'.", path, position, strings.Join(ruleNames, ", "))
+			}
+
 		}
 
 		fileSize := fileInfo.Size()
 
 		if position > fileSize {
 			position = 0
+			linePosition = 1
 		} else if position == fileSize {
 			continue
 		}
@@ -167,16 +175,21 @@ func (crawler *FilesCrawler) _RunOnce() {
 					}
 				}
 			}
+			if linePosition > 0 {
+				linePosition++
+			}
 
 			position, _ := file.Seek(0, os.SEEK_CUR)
 
+			sourceState.Line = linePosition
 			sourceState.Offset = position
 			eventsContainer.Offset = sourceState.Offset
+			eventsContainer.Line = sourceState.Line
 
 			if len(line) > 0 {
 				// process line by correspondent rules
 				for _, rule := range rules {
-					crawler.ParseLine(&src, &line, rule, eventsContainer)
+					crawler.ParseLine(&src, linePosition, &line, rule, eventsContainer)
 				}
 			}
 
@@ -200,7 +213,7 @@ func (crawler *FilesCrawler) _RunOnce() {
 	} // # end for path, rules := range pathOnRulesMap
 }
 
-func (crawler *FilesCrawler) ParseLine(source *string, text *string, rule *RuleConfig, eventsContainer *SecurityEventsContainer) {
+func (crawler *FilesCrawler) ParseLine(source *string, linePosition int64, text *string, rule *RuleConfig, eventsContainer *SecurityEventsContainer) {
 
 	for _, eventFilter := range rule.Events {
 
@@ -268,6 +281,11 @@ func (crawler *FilesCrawler) ParseLine(source *string, text *string, rule *RuleC
 				securityMessage = ApplyFilterToSecurityMessage(securityMessage, &resultMap)
 				securityMessage = strings.Replace(securityMessage, "#ip", ipAddress, len(securityMessage))
 
+				eventSource := *source
+				if linePosition > 0 {
+					eventSource = fmt.Sprintf("%s:%d", eventSource, linePosition)
+				}
+
 				securityEvent := &SecurityEvent{
 					SecurityId:         securityId,
 					SecurityGroupId:    eventFilter.Gid,
@@ -276,7 +294,7 @@ func (crawler *FilesCrawler) ParseLine(source *string, text *string, rule *RuleC
 					Critical:           eventFilter.Critical,
 					IpAddress:          ipAddress,
 					AdditionalFields:   additionalFieldsMap,
-					Source:             source,
+					Source:             &eventSource,
 				}
 
 				eventsContainer.SecurityEvents = append(eventsContainer.SecurityEvents, securityEvent)
