@@ -23,6 +23,15 @@ func ContainsUint(s []uint, e uint) bool {
 	return false
 }
 
+func ContainsUint32(s []uint32, e uint32) bool {
+	for _, a := range s {
+		if a == e {
+			return true
+		}
+	}
+	return false
+}
+
 func ContainsInt32(s []int32, e int32) bool {
 	for _, a := range s {
 		if a == e {
