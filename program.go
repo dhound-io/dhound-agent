@@ -70,6 +70,10 @@ func (program *Program) InternalRun() {
 		return
 	}
 
+	sysProcessManager := &SysProcessManager{}
+	sysProcessManager.Init()
+	sysProcessManager.Run()
+
 	// init all channels
 	systemState := &SystemState{
 		Input: make(chan []*SecurityEventsContainer),

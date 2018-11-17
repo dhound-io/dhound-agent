@@ -12,7 +12,6 @@ import (
 var program = &Program{}
 
 func main() {
-
 	defer func() {
 		p := recover()
 		if p == nil {
