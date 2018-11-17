@@ -61,7 +61,13 @@ func (manager *SysProcessManager) _syncLocalPortsOnPids() bool {
 		}
 	}
 
+	// just to prevent any possible memory leak
+	if len(manager._localPortOnPidMap) > 60000 {
+		manager._localPortOnPidMap = make(map[uint32]int32)
+	}
+
 	lportsMap := manager._localPortOnPidMap
+
 	lports := make([]uint32, 0)
 
 	if connections != nil {
@@ -86,6 +92,11 @@ func (manager *SysProcessManager) _syncLocalPortsOnPids() bool {
 }
 
 func (manager *SysProcessManager) _syncProcessInfoOnPids() bool {
+
+	// just to prevent any possible memory leak
+	if len(manager._pidToProcessInfoMap) > 60000 {
+		manager._pidToProcessInfoMap = make(map[int32]*ProcessInfo)
+	}
 
 	processes, err := process.Processes()
 	if err != nil {
