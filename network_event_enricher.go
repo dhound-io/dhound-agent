@@ -31,8 +31,10 @@ type NetworkConnectionData struct {
 }
 
 type NetworkEventEnricher struct {
-	Input  chan *NetworkEvent
-	_cache []*NetworkEvent
+	Input      chan *NetworkEvent
+	Output     chan *SecurityEventsContainer
+	SysManager *SysProcessManager
+	_cache     []*NetworkEvent
 }
 
 func (enricher *NetworkEventEnricher) Init() {
@@ -45,17 +47,8 @@ func (enricher *NetworkEventEnricher) Run() {
 			// if networkEvent.Type == TcpConnectionInitiatedByHost {
 			debugJson(networkEvent)
 			// }
+
+			// enricher.SysManager.FindProcessInfoByLocalPort(networkEvent.)
 		}
 	}
 }
-
-/*processInfo := monitor.SysProcessManager.FindProcessInfoByLocalPort(uint32(tcp.DstPort))
-pid := ""
-process := ""
-cmdLine := ""
-if processInfo != nil {
-	pid = fmt.Sprintf("%d", processInfo.Pid)
-	process = processInfo.Name
-	cmdLine = processInfo.CommandLine
-}
-*/

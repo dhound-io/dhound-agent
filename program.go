@@ -76,6 +76,7 @@ func (program *Program) InternalRun() {
 
 	networkEventEnricher := &NetworkEventEnricher{
 		Input: make(chan *NetworkEvent),
+		SysManager: sysProcessManager
 	}
 
 	networkMonitor := &NetworkMonitor{
