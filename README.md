@@ -12,10 +12,10 @@ These instructions will get you a copy of the project up and running on your loc
 
 What things you need to install the software and how to install them.
 
-1. install go v1.9.4 and higher - https://golang.org/doc/install
+1. install go v1.11 and higher - https://golang.org/doc/install
 ```
-wget https://dl.google.com/go/go1.9.4.linux-amd64.tar.gz
-sudo tar -C /usr/local -xzf go1.9.4.linux-amd64.tar.gz
+wget https://dl.google.com/go/go1.11.2.linux-amd64.tar.gz
+sudo tar -C /usr/local -xzf go1.11.2.linux-amd64.tar.gz
 ```
 
 2. Set into ~/.profile
@@ -52,13 +52,21 @@ Windows Defender Firewall with Advanced Security -> Properties -> Public Profile
 ```
 6. Download go packages
 ```
-go get gopkg.in/yaml.v2
+		go get gopkg.in/yaml.v2
 		go get gopkg.in/natefinch/lumberjack.v2
 		go get github.com/judwhite/go-svc/svc
+		go get golang.org/x/text/encoding
+		go get github.com/shirou/gopsutil/net
+		go get github.com/shirou/gopsutil/process
 		go get github.com/google/gopacket
 		go get github.com/google/gopacket/layers
 		go get github.com/google/gopacket/pcap
-		go get golang.org/x/text/encoding
+		
+```
+
+7. Specific to compile pcap on Windows
+```
+Use the following link with a very good instruction how to configure Windows Dev enviroment for pcap complation [Compilation-on-Windows](https://github.com/bettercap/bettercap/wiki/Compilation-on-Windows) or [compile-gopacket-on-windows-64bit](https://stackoverflow.com/questions/38047858/compile-gopacket-on-windows-64bit)
 ```
 
 ### Build

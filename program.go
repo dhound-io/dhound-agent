@@ -74,6 +74,16 @@ func (program *Program) InternalRun() {
 	sysProcessManager.Init()
 	sysProcessManager.Run()
 
+	networkEventEnricher := &NetworkEventEnricher{
+		Input: make(chan *NetworkEvent),
+	}
+
+	networkMonitor := &NetworkMonitor{
+		Output: networkEventEnricher.Input,
+	}
+	networkMonitor.Run()
+	networkEventEnricher.Run()
+
 	// init all channels
 	systemState := &SystemState{
 		Input: make(chan []*SecurityEventsContainer),

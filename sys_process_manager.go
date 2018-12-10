@@ -40,11 +40,11 @@ func (manager *SysProcessManager) Run() {
 
 	// run sync pid on process info
 	go func() {
-		firstRun := manager._syncProcessInfoOnPids()
+		firstRun := manager._syncProcessInfoOnPids(true)
 		if firstRun {
 			emitLine(logLevel.important, "Info about local current processes started collecting. detected processes: %d", len(manager._pidToProcessInfoMap))
 			for _ = range time.NewTicker(time.Second * 30).C {
-				manager._syncProcessInfoOnPids()
+				manager._syncProcessInfoOnPids(false)
 			}
 		} else {
 			emitLine(logLevel.important, "Info about local current processes won't be collected")
@@ -61,11 +61,6 @@ func (manager *SysProcessManager) _syncLocalPortsOnPids() bool {
 		}
 	}
 
-	// just to prevent any possible memory leak
-	if len(manager._localPortOnPidMap) > 60000 {
-		manager._localPortOnPidMap = make(map[uint32]int32)
-	}
-
 	lportsMap := manager._localPortOnPidMap
 
 	lports := make([]uint32, 0)
@@ -73,13 +68,14 @@ func (manager *SysProcessManager) _syncLocalPortsOnPids() bool {
 	if connections != nil {
 		for _, connection := range connections {
 			// track output connections only
-			if connection.Family != 0 && connection.Status != "LISTEN1" {
-				lportsMap[connection.Laddr.Port] = connection.Pid
-				lports = append(lports, connection.Laddr.Port)
-				// debugJson(connection)
-			}
+			// if connection.Family != 0 && connection.Status != "LISTEN" {
+			lportsMap[connection.Laddr.Port] = connection.Pid
+			lports = append(lports, connection.Laddr.Port)
+			// }
 		}
 	}
+
+	// debugJson(lportsMap)
 
 	for lport, _ := range lportsMap {
 		if ContainsUint32(lports, lport) == false {
@@ -91,12 +87,7 @@ func (manager *SysProcessManager) _syncLocalPortsOnPids() bool {
 	return true
 }
 
-func (manager *SysProcessManager) _syncProcessInfoOnPids() bool {
-
-	// just to prevent any possible memory leak
-	if len(manager._pidToProcessInfoMap) > 60000 {
-		manager._pidToProcessInfoMap = make(map[int32]*ProcessInfo)
-	}
+func (manager *SysProcessManager) _syncProcessInfoOnPids(quick bool) bool {
 
 	processes, err := process.Processes()
 	if err != nil {
@@ -141,14 +132,53 @@ func (manager *SysProcessManager) _syncProcessInfoOnPids() bool {
 				// debug("new pid: %d (%s)", process.Pid, name)
 			}
 		}
-		// parse commmandline
-		for _, process := range processes {
-			if ContainsInt32(pidsToProcess, process.Pid) {
-				cmdLine, _ := process.Cmdline()
-				manager._pidToProcessInfoMap[process.Pid].CommandLine = cmdLine
-				// debug("new pid: %d (%s)", process.Pid, cmdLine)
+
+		if quick == false {
+			// parse commmandline
+			for _, process := range processes {
+				if ContainsInt32(pidsToProcess, process.Pid) {
+					cmdLine, _ := process.Cmdline()
+					manager._pidToProcessInfoMap[process.Pid].CommandLine = cmdLine
+					// debug("new pid: %d (%s)", process.Pid, cmdLine)
+				}
 			}
 		}
 	}
 	return true
+}
+
+func (manager *SysProcessManager) FindProcessInfoByLocalPort(localPort uint32) *ProcessInfo {
+
+	var processId int32 = -1
+
+	// find pid
+	if pid, ok := manager._localPortOnPidMap[localPort]; ok {
+		processId = pid
+	} else {
+		manager._syncProcessInfoOnPids(true)
+		if pid, ok := manager._localPortOnPidMap[localPort]; ok {
+			processId = pid
+		}
+	}
+
+	if processId > 0 {
+		result := &ProcessInfo{}
+
+		if processInfo, ok := manager._pidToProcessInfoMap[processId]; ok {
+			result = processInfo
+		} else {
+			manager._syncProcessInfoOnPids(true)
+			if processInfo, ok := manager._pidToProcessInfoMap[processId]; ok {
+				result = processInfo
+			}
+		}
+
+		result.Pid = processId
+
+		return result
+	} else {
+		// debug("Local port not found for local port %d", localPort)
+	}
+
+	return nil
 }
