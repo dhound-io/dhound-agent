@@ -283,7 +283,7 @@ func (crawler *FilesCrawler) ParseLine(source *string, linePosition int64, text 
 
 				eventSource := *source
 				if linePosition > 0 {
-					eventSource = fmt.Sprintf("%s:%d", eventSource, linePosition)
+					eventSource = fmt.Sprintf("%s:%d", eventSource, linePosition-1)
 				}
 
 				securityEvent := &SecurityEvent{
