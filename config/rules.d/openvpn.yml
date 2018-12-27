@@ -7,10 +7,10 @@ eventtimeformat: MMM DD hh:mm:ss YYYY
 events:
   # success VPN login
 - sid: 10071
-  regex: '^(\w{3} |)(?P<eventTime>\w+ \d{1,2} \d{2}:\d{2}:\d{2} \d{4}) ((?P<vpn>\w+)/|)(?P<ip>.*?):(?P<clientport>\d+) .*?Username/Password authentication succeeded for username .(?P<user>.*?).$'
+  regex: ^(\w{3} |)(?P<eventTime>\w+ \d{1,2} \d{2}:\d{2}:\d{2} \d{4}) ((?P<vpn>\w+)/|)(?P<ip>.*?):(?P<clientport>\d+) .*?Username/Password authentication succeeded for username '(?P<user>.*?)'
 
   # failed VPN login
 - sid: 10072
-  regex: '^(\w{3} |)(?P<eventTime>\w+ \d{1,2} \d{2}:\d{2}:\d{2} \d{4}) ((?P<vpn>\w+)/|)(?P<ip>.*?):(?P<clientport>\d+) .*?SENT CONTROL( \[(?P<vpn>\w+)\]|): .AUTH_FAILED.'
+  regex: ^(\w{3} |)(?P<eventTime>\w+ \d{1,2} \d{2}:\d{2}:\d{2} \d{4}) ((?P<vpn>\w+)/|)(?P<ip>.*?):(?P<clientport>\d+) .*?SENT CONTROL( \[(?P<vpn>\w+)\]|):( ')AUTH_FAILED'
 - sid: 10072
-  regex: '^(\w{3} |)(?P<eventTime>\w+ \d{1,2} \d{2}:\d{2}:\d{2} \d{4}) ((?P<vpn>\w+)/|)(?P<ip>.*?):(?P<clientport>\d+) .*?TLS Auth Error: Auth Username/Password verification failed'
+  regex: ^(\w{3} |)(?P<eventTime>\w+ \d{1,2} \d{2}:\d{2}:\d{2} \d{4}) ((?P<vpn>\w+)/|)(?P<ip>.*?):(?P<clientport>\d+) .*?Auth Username/Password verification failed
