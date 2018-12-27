@@ -11,7 +11,7 @@ input:
   # enable all rules specified in rules.d folder: true/false
   allrules: true
   # if allrules is false, specify name of rule files without extension (for example, sshd, tcp-out, etc)
-  rules: [sshd, fail2ban, pure-ftpd, tcp-out, apache-wordpress]
+  rules: [sshd, fail2ban, pure-ftpd, tcp-out, apache-wordpress, openvpn]
   # network interface (optional)
   networkinterface: "eth0"
   # this is useful functionality for output traffic incidents investigation, not available on arm devices
