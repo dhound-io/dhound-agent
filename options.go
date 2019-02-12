@@ -37,6 +37,8 @@ func (options *Options) ParseArguments() {
 
 	flag.StringVar(&options.Pprof, "pprof", options.Pprof, "profiling option (for internal using)")
 
+	flag.Parse()
+
 	if runtime.GOOS == "windows" {
 		// for windows all files are located on the same folder, current directory should be set up in the code
 		execPath, err := Executable()
@@ -57,8 +59,6 @@ func (options *Options) ParseArguments() {
 			options.ConfigDir = "config"
 		}
 	}
-
-	flag.Parse()
 
 	if options.IdleTimeoutInSeconds > 0 {
 		options.IdleTimeout = time.Second * time.Duration(options.IdleTimeoutInSeconds)
