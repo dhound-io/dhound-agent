@@ -142,7 +142,7 @@ EOF"
     fi
 
     echo "Restarting dhound-agent..."
-    /etc/init.d/dhound-agent restart
+    service dhound-agent restart
 
     if [ $? -gt 0 ]; then
       echo "DHound-agent installation failed."
