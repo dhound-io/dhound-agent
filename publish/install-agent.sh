@@ -27,7 +27,7 @@ RHEL_VERSION_MIN="5"
 CloudLinux_VERSION_MIN="5"
 Oracle_VERSION_MIN="6"
 Fedora_VERSION_MIN="21"
-Amazon_VERSION_MIN="2012"
+Amazon_VERSION_MIN=""
 
 APIHOST="https://gate.dhound.io"
 DEBREPOSITORY="https://repository.dhound.io/deb"
