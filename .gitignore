@@ -25,3 +25,4 @@ dhound-agent.exe
 /build/*
 /.state/*
 /.vs/*
+\.idea/
