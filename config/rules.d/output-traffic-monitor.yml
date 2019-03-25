@@ -4,16 +4,16 @@
 # Usually servers work with well-known trusted external resources (sending mail, payments, etc.). This event category shows all OUT established TCP connections and marks them as Warnings if server starts communication with untrusted location. This helps to define troyan, viruses injected on server that communicate with external malicious resources.
 
 paths:
-- /var/log/dhound-traffic-output-monitor*
+- /var/log/dhound-output-traffic-monitor*
 - /var/log/syslog*
-eventtimeformat: MMM D hh:mm:ss
+eventtimeformat: YYYY/MM/DD hh:mm:ss
 events:
-# TCP - success true
+# TCP - success true 
 - sid: 10011
   regex: 'dhound-output-traffic-monitor.*?([12]\d{3}\/[0-9]{1,2}\/[0-9]{1,2}\d).*?([0-9]{2}:[0-9]{2}:[0-9]{2}).*?tcp > (?P<ip>.*?):(?P<port>\d+).*success:true(.+?pid:(?P<pid>[0-9]{1,})|)(.+?process:"(?P<process>.+?)"|)(.+?commandline:"(?P<commandline>.+?)"|)(.+?domains:(?P<domains>.*?)|)}'
 
 - sid: 10011
-  regex: '.*?([12]\d{3}\/[0-9]{1,2}\/[0-9]{1,2}\d).*?([0-9]{2}:[0-9]{2}:[0-9]{2}).*?tcp > (?P<ip>.*?):(?P<port>\d+).*success:true(.+?pid:(?P<pid>[0-9]{1,})|)(.+?process:"(?P<process>.+?)"|)(.+?commandline:"(?P<commandline>.+?)"|)(.+?domains:(?P<domains>.*?)|)}'
+  regex: '(?P<eventTime>([12]\d{3}\/[0-9]{1,2}\/[0-9]{1,2}\d) ([0-9]{2}:[0-9]{2}:[0-9]{2})).*?tcp > (?P<ip>.*?):(?P<port>\d+).*success:true(.+?pid:(?P<pid>[0-9]{1,})|)(.+?process:"(?P<process>.+?)"|)(.+?commandline:"(?P<commandline>.+?)"|)(.+?domains:(?P<domains>.*?)|)}'
 
 # TCP success false
 - sid: 10012
