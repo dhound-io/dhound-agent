@@ -10,28 +10,16 @@ eventtimeformat: YYYY/MM/DD hh:mm:ss
 events:
 # TCP - success true
 - sid: 10011
-  regex: 'dhound-output-traffic-monitor.*?([12]\d{3}\/[0-9]{1,2}\/[0-9]{1,2}\d).*?([0-9]{2}:[0-9]{2}:[0-9]{2}).*?tcp > (?P<ip>.*?):(?P<port>\d+).*success:true(.+?pid:(?P<pid>[0-9]{1,})|)(.+?process:"(?P<process>.+?)"|)(.+?commandline:"(?P<commandline>.+?)"|)(.+?domains:(?P<domains>.*?)|)}'
-
-- sid: 10011
   regex: '(?P<eventTime>[12]\d{3}\/[0-9]{1,2}\/[0-9]{1,2}\d [0-9]{2}:[0-9]{2}:[0-9]{2}).*?tcp > (?P<ip>.*?):(?P<port>\d+).*success:true(.+?pid:(?P<pid>[0-9]{1,})|)(.+?process:"(?P<process>.+?)"|)(.+?commandline:"(?P<commandline>.+?)"|)(.+?domains:(?P<domains>.*?)|).*(?P<timestamp>\d{10}|)'
 
 # TCP success false
-- sid: 10012
-  regex: 'dhound-output-traffic-monitor.*?([12]\d{3}\/[0-9]{1,2}\/[0-9]{1,2}\d).*?([0-9]{2}:[0-9]{2}:[0-9]{2}).*?tcp > (?P<ip>.*?):(?P<port>\d+).*success:false(.+?pid:(?P<pid>[0-9]{1,})|)(.+?process:"(?P<process>.+?)"|)(.+?commandline:"(?P<commandline>.+?)"|)(.+?domains:(?P<domains>.*?)|)}'
-
 - sid: 10012
   regex: '(?P<eventTime>[12]\d{3}\/[0-9]{1,2}\/[0-9]{1,2}\d [0-9]{2}:[0-9]{2}:[0-9]{2}).*?tcp > (?P<ip>.*?):(?P<port>\d+).*success:false(.+?pid:(?P<pid>[0-9]{1,})|)(.+?process:"(?P<process>.+?)"|)(.+?commandline:"(?P<commandline>.+?)"|)(.+?domains:(?P<domains>.*?)|).*(?P<timestamp>\d{10}|)'
 
 # UDP success true
 - sid: 10013
-  regex: 'dhound-output-traffic-monitor.*?([12]\d{3}\/[0-9]{1,2}\/[0-9]{1,2}\d).*?([0-9]{2}:[0-9]{2}:[0-9]{2}).*?udp > (?P<ip>.*?):(?P<port>\d+).*success:true(.+?bytes:(?P<bytes>[0-9]{1,})|)(.+?pid:(?P<pid>[0-9]{1,})|)(.+?process:"(?P<process>.+?)"|)}'
-
-- sid: 10013
   regex: '(?P<eventTime>[12]\d{3}\/[0-9]{1,2}\/[0-9]{1,2}\d [0-9]{2}:[0-9]{2}:[0-9]{2}).*?udp > (?P<ip>.*?):(?P<port>\d+).*success:true(.+?bytes:(?P<bytes>[0-9]{1,})|)(.+?pid:(?P<pid>[0-9]{1,})|)(.+?process:"(?P<process>.+?)"|).*(?P<timestamp>\d{10}|)'
 
 # UDP success false
-- sid: 10014
-  regex: 'dhound-output-traffic-monitor.*?([12]\d{3}\/[0-9]{1,2}\/[0-9]{1,2}\d).*?([0-9]{2}:[0-9]{2}:[0-9]{2}).*?udp > (?P<ip>.*?):(?P<port>\d+).*success:false(.+?bytes:(?P<bytes>[0-9]{1,})|)(.+?pid:(?P<pid>[0-9]{1,})|)(.+?process:"(?P<process>.+?)"|)}'
-
 - sid: 10014
   regex: '(?P<eventTime>[12]\d{3}\/[0-9]{1,2}\/[0-9]{1,2}\d [0-9]{2}:[0-9]{2}:[0-9]{2}).*?udp > (?P<ip>.*?):(?P<port>\d+).*success:false(.+?bytes:(?P<bytes>[0-9]{1,})|)(.+?pid:(?P<pid>[0-9]{1,})|)(.+?process:"(?P<process>.+?)"|).*(?P<timestamp>\d{10}|)'
