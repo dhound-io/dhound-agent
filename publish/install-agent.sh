@@ -307,8 +307,8 @@ fi
 
 while getopts ":a:s:h:u" opt; do
     case $opt in
-    u)
-        UPDATEAGENT=1
+        u)
+            UPDATEAGENT=1
         ;;
         h)
                 print_help
