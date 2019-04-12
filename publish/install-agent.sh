@@ -235,6 +235,9 @@ if [ -f /etc/redhat-release ] ; then
            fi
        elif [ "$DISTRO" = "CentOS" ]; then
            VERSION=`echo $PLATFORM | awk '{print $3}'`
+            if [ "$VERSION" = "release" ]; then
+                VERSION=`echo $PLATFORM | awk '{print $4}'`
+            fi
        fi
     fi
     MACHINE=`uname -m`
