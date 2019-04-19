@@ -6,7 +6,6 @@
 
 paths: 
 - 'c:\WINDOWS\system32\LogFiles\Firewall\*.log'
-events:
 eventtimeformat: YYYY-MM-DD hh:mm:ss
 events:
 # SecurityId(sid):10011 - out tcp connections
