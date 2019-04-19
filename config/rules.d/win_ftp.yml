@@ -2,7 +2,6 @@
 
 paths: 
 - 'c:\inetpub\logs\LogFiles\FTPSVC*\*.log'
-events:
 eventtimeformat: YYYY-MM-DD hh:mm:ss
 events:
 # failed windows ftp connection

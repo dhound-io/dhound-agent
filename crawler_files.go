@@ -144,7 +144,7 @@ func (crawler *FilesCrawler) _RunOnce() {
 		}
 
 		if position > 0 {
-			file.Seek(position, os.SEEK_SET)
+			file.Seek(position, io.SeekStart)
 		}
 
 		reader := bufio.NewReaderSize(decodingReader, 10*1024)
@@ -179,7 +179,7 @@ func (crawler *FilesCrawler) _RunOnce() {
 				linePosition++
 			}
 
-			position, _ := file.Seek(0, os.SEEK_CUR)
+			position, _ := file.Seek(0, io.SeekCurrent)
 
 			sourceState.Line = linePosition
 			sourceState.Offset = position
