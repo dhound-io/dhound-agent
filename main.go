@@ -3,10 +3,9 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/judwhite/go-svc/svc"
 	"log"
 	"os"
-
-	"github.com/judwhite/go-svc/svc"
 )
 
 var program = &Program{}
