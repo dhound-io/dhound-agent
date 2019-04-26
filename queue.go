@@ -43,7 +43,7 @@ func (queue *Queue) Run() {
 	// time ticker to flush events
 	ticker := time.NewTicker(queue._idleTimeout)
 	go func() {
-		for _ = range ticker.C {
+		for range ticker.C {
 			// push fake nil to input to run reprocessing queue
 			queue.Input <- nil
 		}

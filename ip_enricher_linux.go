@@ -53,7 +53,7 @@ func (enricher *IpEnricher) _InternalSync(runOnce bool) {
 	emitLine(logLevel.important, "ip encricher enabled. listening to device %s.", deviceName)
 
 	// Set filter
-	var filter string = "udp and port 53"
+	var filter = "udp and port 53"
 	err = handle.SetBPFFilter(filter)
 	if err != nil {
 		emitLine(logLevel.important, "Failed set BPF Filter. Error: %s.", err.Error())
@@ -142,7 +142,8 @@ func (enricher *IpEnricher) _InternalSync(runOnce bool) {
 	}
 }
 
-func (enricher *IpEnricher) _ProcessEventsContainer(eventsContainer *SecurityEventsContainer) {
+func (enricher *IpEnricher) _ProcessEventsContainer(
+	eventsContainer *SecurityEventsContainer) {
 	eventsContainer.IpToServiceMap = enricher._ipToServicesMap
 	enricher._ipToServicesMap = nil
 }
